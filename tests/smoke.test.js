@@ -15,6 +15,9 @@ const json = require('../apps/json/json.js');
 const convert = require('../apps/convert/convert.js');
 const picker = require('../apps/picker/picker.js');
 const noise = require('../apps/noise/noise.js');
+const qrcode = require('../apps/qrcode/qrcode.js');
+const colorApp = require('../apps/color/color.js');
+const timestamp = require('../apps/timestamp/timestamp.js');
 const { fakeDom, fakeStorage } = require('./helpers');
 
 module.exports = (t) => {
@@ -432,6 +435,81 @@ module.exports = (t) => {
       ids.get('play-white').dispatch('click', {});
       a.equal(ids.get('play-white').textContent, '播放', '再点停止');
       a.equal(ids.get('timerLabel').textContent, '', '停止后清空定时显示');
+    } finally {
+      global.setInterval = realSetInterval;
+    }
+  });
+
+  t.test('二维码生成器：实时渲染、级别切换、超长提示', (a) => {
+    const { doc, ids } = fakeDom();
+    /* 模拟 DOM 不解析 HTML 属性，按 index.html 默认预设 */
+    doc.getElementById('levelSelect').value = 'M';
+    qrcode.initQrcode(doc);
+    a.equal(ids.get('qrInfo').textContent, '请输入内容，二维码将实时生成');
+
+    ids.get('textInput').value = 'https://125for.github.io/mini-apps/';
+    ids.get('textInput').dispatch('input', {});
+    a.ok(ids.get('qrInfo').textContent.includes('版本'));
+    a.ok(ids.get('qrInfo').textContent.includes('纠错 M'));
+    const svg = ids.get('qrContainer').children[0];
+    a.equal(svg.tagName, 'SVG');
+    a.ok(svg.children.length > 100, '应渲染大量模块矩形');
+
+    ids.get('levelSelect').value = 'H';
+    ids.get('levelSelect').dispatch('change', {});
+    a.ok(ids.get('qrInfo').textContent.includes('纠错 H'));
+
+    ids.get('textInput').value = 'x'.repeat(300);
+    ids.get('textInput').dispatch('input', {});
+    a.ok(ids.get('qrInfo').textContent.includes('内容过长'));
+    a.equal(ids.get('qrContainer').children.length, 0, '失败时清空画布');
+  });
+
+  t.test('颜色工具：取色同步、格式换算、对比度评级', (a) => {
+    const { doc, ids } = fakeDom();
+    colorApp.initColor(doc);
+    a.equal(ids.get('hexInput').value, '#5b9dff', '默认回退色');
+
+    ids.get('hexInput').value = '  #FF0000 ';
+    ids.get('hexInput').dispatch('input', {});
+    a.equal(ids.get('colorInput').value, '#ff0000', '取色器同步');
+    a.ok(ids.get('rgbLine').textContent.includes('255, 0, 0'));
+    a.ok(ids.get('hslLine').textContent.includes('0°, 100%, 50%'));
+    a.ok(String(ids.get('swatch').attrs.style).includes('#ff0000'));
+
+    ids.get('colorInput').value = '#ffffff';
+    ids.get('colorInput').dispatch('input', {});
+    a.ok(ids.get('contrastBlack').textContent.includes('21'), '纯白对纯黑应为 21:1');
+    a.equal(ids.get('badgeBlack').textContent, 'AAA');
+
+    ids.get('hexInput').value = 'zzz';
+    ids.get('hexInput').dispatch('input', {});
+    a.ok(ids.get('rgbLine').textContent.includes('255, 255, 255'), '非法输入保持原显示');
+  });
+
+  t.test('时间戳转换：双向转换与容错', (a) => {
+    const realSetInterval = global.setInterval;
+    global.setInterval = () => 0;
+    try {
+      const { doc, ids } = fakeDom();
+      timestamp.initTimestamp(doc);
+      a.ok(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/.test(ids.get('nowText').textContent), '当前时间格式');
+      a.ok(ids.get('nowTs').textContent.includes('（秒）'));
+
+      ids.get('tsInput').value = '1774000000';
+      ids.get('tsInput').dispatch('input', {});
+      a.ok(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/.test(ids.get('tsDateLine').textContent));
+      a.ok(ids.get('tsWeekLine').textContent.includes('星期：周'));
+      a.ok(ids.get('tsRelLine').textContent.includes('相对：'));
+
+      ids.get('tsInput').value = 'abc';
+      ids.get('tsInput').dispatch('input', {});
+      a.ok(ids.get('tsDateLine').textContent.includes('格式无效'));
+
+      ids.get('dateInput').value = '2026-10-26T12:30:00';
+      ids.get('dateInput').dispatch('input', {});
+      a.ok(/^\d+（秒）$/.test(ids.get('tsSecLine').textContent));
+      a.ok(/^\d+000（毫秒）$/.test(ids.get('tsMsLine').textContent));
     } finally {
       global.setInterval = realSetInterval;
     }

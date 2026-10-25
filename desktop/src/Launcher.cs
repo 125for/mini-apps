@@ -24,7 +24,7 @@ static class Launcher
             if (args.Length >= 1 && args[0] == "--make-launchers")
             {
                 string selfPath = Process.GetCurrentProcess().MainModule.FileName;
-                string[] names = new string[] { "时钟", "待办", "日志", "番茄钟", "倒数日", "密码生成器", "习惯打卡", "记账本", "JSON工具箱", "单位换算", "抽签决定器", "白噪音" };
+                string[] names = new string[] { "时钟", "待办", "日志", "番茄钟", "倒数日", "密码生成器", "习惯打卡", "记账本", "JSON工具箱", "单位换算", "抽签决定器", "白噪音", "二维码", "颜色工具", "时间戳" };
                 foreach (string n in names)
                 {
                     File.Copy(selfPath, Path.Combine(exeDir, n + ".exe"), true);
@@ -96,7 +96,10 @@ static class Launcher
         else if (name == "单位换算") { rel = Path.Combine("apps", "convert", "index.html"); width = 660; height = 780; }
         else if (name == "抽签决定器") { rel = Path.Combine("apps", "picker", "index.html"); width = 660; height = 840; }
         else if (name == "白噪音") { rel = Path.Combine("apps", "noise", "index.html"); width = 680; height = 800; }
-        else { rel = "index.html"; width = 1160; height = 820; }
+        else if (name == "二维码") { rel = Path.Combine("apps", "qrcode", "index.html"); width = 560; height = 820; }
+        else if (name == "颜色工具") { rel = Path.Combine("apps", "color", "index.html"); width = 580; height = 780; }
+        else if (name == "时间戳") { rel = Path.Combine("apps", "timestamp", "index.html"); width = 600; height = 820; }
+        else { rel = "index.html"; width = 1240; height = 860; }
     }
 
     // Edge 随 Windows 10/11 分发，作为首选；Chrome 作为备选

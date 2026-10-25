@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="二维码生成器：纯 JavaScript 实现的完整 QR 编码（Reed-Solomon 纠错、八种掩码择优），支持 PNG 下载">
+  <title>二维码生成器 · Mini Apps</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔲</text></svg>">
+  <link rel="stylesheet" href="qrcode.css">
+  <script src="qrcode.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>二维码生成器</h1>
+      <a class="back" href="../../index.html">← 首页</a>
+    </header>
+
+    <textarea id="textInput" class="input-area" rows="4" spellcheck="false"
+      placeholder="输入文字或链接，例如 https://125for.github.io/mini-apps/"></textarea>
+
+    <div class="toolbar">
+      <label class="ctl">纠错级别
+        <select id="levelSelect">
+          <option value="L" title="约 7% 纠错，容量最大">L（7%）</option>
+          <option value="M" selected title="约 15% 纠错，推荐">M（15%）</option>
+          <option value="Q" title="约 25% 纠错">Q（25%）</option>
+          <option value="H" title="约 30% 纠错，容量最小">H（30%）</option>
+        </select>
+      </label>
+      <span class="spacer"></span>
+      <button id="downloadBtn" type="button">下载 PNG</button>
+    </div>
+
+    <p id="qrInfo" class="info">—</p>
+    <div id="qrContainer" class="qr-container"></div>
+    <p class="hint">纯 JavaScript 实现（Reed-Solomon 纠错 + 八种掩码自动择优），最高支持版本 10；内容在本地编码，不经过任何网络</p>
+  </main>
+</body>
+</html>

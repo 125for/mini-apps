@@ -1,6 +1,6 @@
 # Mini Apps · 轻量小应用合集
 
-十二个零依赖、开箱即用的网页小工具，同时提供 **Windows 桌面启动器**（双击 exe 即用）。应用本体为纯 HTML / CSS / JavaScript，无构建步骤、无第三方库、无任何网络请求，数据仅保存在浏览器 localStorage 中。
+十五个零依赖、开箱即用的网页小工具，同时提供 **Windows 桌面启动器**（双击 exe 即用）。应用本体为纯 HTML / CSS / JavaScript，无构建步骤、无第三方库、无任何网络请求，数据仅保存在浏览器 localStorage 中。
 
 ## 应用一览
 
@@ -18,6 +18,9 @@
 | 📏 [单位换算](apps/convert/index.html) | 长度、重量、面积（含亩）、体积、温度、数据（1000/1024 并存）、速度 |
 | 🎲 [抽签决定器](apps/picker/index.html) | 密码学安全随机抽取，支持排除已抽（不重复抽签）与整组洗牌 |
 | 🌊 [白噪音](apps/noise/index.html) | 白 / 粉 / 棕噪音与海浪，WebAudio 实时合成（无音频文件），定时停止 |
+| 🔲 [二维码生成器](apps/qrcode/index.html) | 纯 JS 实现 QR 编码（版本 1-10、Reed-Solomon 纠错、八种掩码择优），SVG 渲染 + PNG 下载 |
+| 🎨 [颜色工具](apps/color/index.html) | HEX / RGB / HSL 互转，相对亮度与 WCAG 对比度评级 |
+| ⏱️ [时间戳转换](apps/timestamp/index.html) | Unix 时间戳 ↔ 日期时间互转，自动识别秒 / 毫秒，附相对时间 |
 
 ## 在线使用
 
@@ -28,8 +31,8 @@ GitHub Pages：<https://125for.github.io/mini-apps/>
 到 [Releases](https://github.com/125for/mini-apps/releases) 下载最新版 `mini-apps-windows-desktop.zip`，解压后双击任意 exe 即可：
 
 ```
-时钟 · 待办 · 日志 · 番茄钟 · 倒数日 · 密码生成器
-习惯打卡 · 记账本 · JSON工具箱 · 单位换算 · 抽签决定器 · 白噪音 · MiniApps（合集首页）
+时钟 · 待办 · 日志 · 番茄钟 · 倒数日 · 密码生成器 · 习惯打卡 · 记账本
+JSON工具箱 · 单位换算 · 抽签决定器 · 白噪音 · 二维码 · 颜色工具 · 时间戳 · MiniApps（合集首页）
 ```
 
 - exe 是 **6.5 KB** 的轻量启动器，调用系统自带 Edge / Chrome 的应用窗口模式（无地址栏、无标签页，看起来就像桌面应用），**无需安装任何运行时**
@@ -58,9 +61,9 @@ python -m http.server 8080
 node tests/run-tests.js
 ```
 
-88 个用例，包含四部分，全程无界面弹窗、无网络访问：
+112 个用例，包含四部分，全程无界面弹窗、无网络访问：
 
-- **单元测试** —— 各应用的纯函数逻辑（时间格式化、日期计算、金额与随机采样、换算因子表、噪音合成、状态机、streak 计算等）
+- **单元测试** —— 各应用的纯函数逻辑（时间格式化、日期计算、金额与随机采样、换算因子表、噪音合成、QR 编码、状态机、streak 计算等）
 - **界面冒烟测试** —— 用极简模拟 DOM 驱动真实界面代码，验证交互与持久化
 - **静态安全扫描** —— 禁止 `innerHTML` / `eval` / 内联事件等危险用法，检查桌面启动器无网络 API
 - **构建产物检查** —— 桌面启动器 exe 已构建且体积小于 128KB
@@ -76,7 +79,7 @@ CI（GitHub Actions）在每次推送时于 Ubuntu 运行全部测试、于 Wind
 
 ## English
 
-Twelve zero-dependency web mini apps (clock, to-do, journal, pomodoro, countdown, password generator, habit tracker, expense book, JSON toolkit, unit converter, random picker, white noise) plus tiny Windows launcher exes (~6.5 KB each) that open them in Edge/Chrome app-window mode. Pure HTML/CSS/JS, no build step, no network requests; data stays in your browser's localStorage. Run all 88 tests with `node tests/run-tests.js`.
+Fifteen zero-dependency web mini apps (clock, to-do, journal, pomodoro, countdown, password generator, habit tracker, expense book, JSON toolkit, unit converter, random picker, white noise, QR code generator, color tool, timestamp converter) plus tiny Windows launcher exes (~6.5 KB each) that open them in Edge/Chrome app-window mode. Pure HTML/CSS/JS, no build step, no network requests; data stays in your browser's localStorage. The QR encoder is implemented from scratch (Reed-Solomon over GF(256), verified against a published ISO/IEC 18004 example). Run all 112 tests with `node tests/run-tests.js`.
 
 ## License
 

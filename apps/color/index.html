@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="颜色工具：HEX / RGB / HSL 互转，亮度与 WCAG 对比度检查">
+  <title>颜色工具 · Mini Apps</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+  <link rel="stylesheet" href="color.css">
+  <script src="color.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>颜色工具</h1>
+      <a class="back" href="../../index.html">← 首页</a>
+    </header>
+
+    <section class="picker-row">
+      <div id="swatch" class="swatch"></div>
+      <div class="picker-inputs">
+        <input id="colorInput" class="color-input" type="color" value="#5b9dff">
+        <input id="hexInput" class="input hex" type="text" maxlength="7" placeholder="#5b9dff" autocomplete="off" spellcheck="false">
+      </div>
+    </section>
+
+    <section class="values">
+      <p id="rgbLine" class="value-line">—</p>
+      <p id="hslLine" class="value-line">—</p>
+      <p id="lumLine" class="value-line">—</p>
+    </section>
+
+    <section class="contrast">
+      <h2>对比度检查（WCAG）</h2>
+      <div class="contrast-row">
+        <span class="chip chip-black" title="前景色在纯黑背景上">黑底</span>
+        <span id="contrastBlack" class="ratio">—</span>
+        <span id="badgeBlack" class="badge">—</span>
+      </div>
+      <div class="contrast-row">
+        <span class="chip chip-white" title="前景色在纯白背景上">白底</span>
+        <span id="contrastWhite" class="ratio">—</span>
+        <span id="badgeWhite" class="badge">—</span>
+      </div>
+      <p class="hint">AA 需 ≥ 4.5:1（大字 3:1），AAA 需 ≥ 7:1</p>
+    </section>
+  </main>
+</body>
+</html>

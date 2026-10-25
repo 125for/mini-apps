@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="时间戳转换：Unix 时间戳与日期时间互转，自动识别秒/毫秒，附相对时间">
+  <title>时间戳转换 · Mini Apps</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱️</text></svg>">
+  <link rel="stylesheet" href="timestamp.css">
+  <script src="timestamp.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>时间戳转换</h1>
+      <a class="back" href="../../index.html">← 首页</a>
+    </header>
+
+    <section class="now-card">
+      <p class="label">当前时间</p>
+      <p id="nowText" class="now-text">—</p>
+      <p id="nowTs" class="now-ts">—</p>
+    </section>
+
+    <section class="panel">
+      <h2>时间戳 → 日期</h2>
+      <div class="row">
+        <input id="tsInput" class="input mono" type="text" inputmode="numeric" placeholder="如 1774000000（秒）或 1774000000000（毫秒）" autocomplete="off">
+        <button id="tsNowBtn" type="button" class="ghost">此刻</button>
+      </div>
+      <div class="result">
+        <p id="tsDateLine" class="result-line">—</p>
+        <p id="tsWeekLine" class="result-line muted">—</p>
+        <p id="tsRelLine" class="result-line muted">—</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>日期 → 时间戳</h2>
+      <div class="row">
+        <input id="dateInput" class="input" type="datetime-local" step="1">
+        <button id="dateNowBtn" type="button" class="ghost">此刻</button>
+      </div>
+      <div class="result">
+        <p id="tsSecLine" class="result-line mono">—</p>
+        <p id="tsMsLine" class="result-line mono muted">—</p>
+      </div>
+    </section>
+
+    <p class="hint">13 位及以上按毫秒识别，其余按秒；全部按本地时区计算</p>
+  </main>
+</body>
+</html>

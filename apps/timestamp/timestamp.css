@@ -1,0 +1,92 @@
+/* 时间戳转换 —— 默认深色，跟随系统明暗 */
+
+:root {
+  --bg: #0e1116;
+  --card: #151a22;
+  --fg: #eef1f6;
+  --muted: #8b93a7;
+  --border: #262d3a;
+  --accent: #5b9dff;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f4f6fa;
+    --card: #ffffff;
+    --fg: #1c2230;
+    --muted: #66707f;
+    --border: #dde3ec;
+    --accent: #2f6fe0;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  line-height: 1.6;
+}
+
+.wrap { max-width: 620px; margin: 0 auto; padding: 40px 20px 80px; }
+
+.head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; }
+h1 { margin: 0; font-size: 26px; }
+h2 { margin: 0 0 12px; font-size: 15px; }
+.back { color: var(--muted); text-decoration: none; font-size: 13px; }
+.back:hover { color: var(--accent); }
+
+.now-card {
+  padding: 18px;
+  text-align: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-bottom: 14px;
+}
+.label { margin: 0 0 4px; color: var(--muted); font-size: 12.5px; }
+.now-text { margin: 0; font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.now-ts { margin: 4px 0 0; color: var(--accent); font-size: 14px; font-variant-numeric: tabular-nums; }
+
+.panel {
+  padding: 16px 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-bottom: 14px;
+}
+.row { display: flex; gap: 10px; }
+.input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg);
+  outline: none;
+}
+.input:focus { border-color: var(--accent); }
+.mono { font-family: Consolas, 'Cascadia Mono', monospace; }
+.ghost {
+  font: inherit;
+  font-size: 13px;
+  padding: 0 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+.result { margin-top: 12px; }
+.result-line { margin: 0 0 4px; font-size: 15px; word-break: break-all; }
+.result-line:last-child { margin-bottom: 0; }
+.result-line.muted { color: var(--muted); font-size: 13.5px; }
+
+.hint { color: var(--muted); font-size: 12px; text-align: center; margin: 18px 0 0; }
