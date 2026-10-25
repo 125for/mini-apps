@@ -24,7 +24,7 @@ static class Launcher
             if (args.Length >= 1 && args[0] == "--make-launchers")
             {
                 string selfPath = Process.GetCurrentProcess().MainModule.FileName;
-                string[] names = new string[] { "时钟", "待办", "日志", "番茄钟", "倒数日", "密码生成器" };
+                string[] names = new string[] { "时钟", "待办", "日志", "番茄钟", "倒数日", "密码生成器", "习惯打卡", "记账本", "JSON工具箱" };
                 foreach (string n in names)
                 {
                     File.Copy(selfPath, Path.Combine(exeDir, n + ".exe"), true);
@@ -90,7 +90,10 @@ static class Launcher
         else if (name == "番茄钟") { rel = Path.Combine("apps", "pomodoro", "index.html"); width = 560; height = 820; }
         else if (name == "倒数日") { rel = Path.Combine("apps", "countdown", "index.html"); width = 620; height = 820; }
         else if (name == "密码生成器") { rel = Path.Combine("apps", "password", "index.html"); width = 600; height = 820; }
-        else { rel = "index.html"; width = 960; height = 720; }
+        else if (name == "习惯打卡") { rel = Path.Combine("apps", "habit", "index.html"); width = 640; height = 880; }
+        else if (name == "记账本") { rel = Path.Combine("apps", "expense", "index.html"); width = 680; height = 920; }
+        else if (name == "JSON工具箱") { rel = Path.Combine("apps", "json", "index.html"); width = 840; height = 880; }
+        else { rel = "index.html"; width = 1100; height = 780; }
     }
 
     // Edge 随 Windows 10/11 分发，作为首选；Chrome 作为备选

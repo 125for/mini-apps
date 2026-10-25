@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="JSON 工具箱：格式化、压缩、校验（错误行列定位）、键名排序、节点统计">
+  <title>JSON 工具箱 · Mini Apps</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧰</text></svg>">
+  <link rel="stylesheet" href="json.css">
+  <script src="json.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>JSON 工具箱</h1>
+      <a class="back" href="../../index.html">← 首页</a>
+    </header>
+
+    <textarea id="jsonInput" class="input-area" rows="10" spellcheck="false"
+      placeholder='粘贴 JSON，例如 {"name":"mini-apps","apps":9}'></textarea>
+
+    <div class="toolbar">
+      <label class="check"><input id="sortKeys" type="checkbox"> 键名排序</label>
+      <span class="spacer"></span>
+      <button id="formatBtn" type="button" class="primary">格式化</button>
+      <button id="minifyBtn" type="button">压缩</button>
+      <button id="validateBtn" type="button">校验</button>
+      <button id="copyBtn" type="button">复制结果</button>
+    </div>
+
+    <p id="message" class="message"></p>
+    <pre id="jsonOutput" class="output"></pre>
+    <p id="stats" class="stats"></p>
+  </main>
+</body>
+</html>

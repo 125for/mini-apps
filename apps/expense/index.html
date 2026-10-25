@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="极简记账本：收支记录、按月浏览、月度汇总，金额精确到分，本地保存">
+  <title>记账本 · Mini Apps</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
+  <link rel="stylesheet" href="expense.css">
+  <script src="expense.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>记账本</h1>
+      <a class="back" href="../../index.html">← 首页</a>
+    </header>
+
+    <form id="entryForm" class="composer">
+      <div class="type-toggle">
+        <button id="typeExpense" type="button" class="active">支出</button>
+        <button id="typeIncome" type="button">收入</button>
+      </div>
+      <input id="amountInput" class="input amount" type="text" inputmode="decimal" placeholder="金额 如 25.50" autocomplete="off">
+      <input id="noteInput" class="input" type="text" maxlength="30" placeholder="备注（可空）" autocomplete="off">
+      <input id="dateInput" class="input date" type="date">
+      <button class="add" type="submit">记一笔</button>
+    </form>
+
+    <section class="summary">
+      <div class="sum">
+        <span class="label">支出</span>
+        <span id="sumExpense" class="value expense">¥0.00</span>
+      </div>
+      <div class="sum">
+        <span class="label">收入</span>
+        <span id="sumIncome" class="value income">¥0.00</span>
+      </div>
+      <div class="sum">
+        <span class="label">结余</span>
+        <span id="sumBalance" class="value">¥0.00</span>
+      </div>
+    </section>
+
+    <div class="month-nav">
+      <button id="prevMonth" type="button" title="上个月">‹</button>
+      <span id="monthLabel"></span>
+      <button id="nextMonth" type="button" title="下个月">›</button>
+    </div>
+
+    <ul id="entryList" class="list"></ul>
+    <p id="emptyState" class="empty" hidden>这个月还没有记录</p>
+  </main>
+</body>
+</html>

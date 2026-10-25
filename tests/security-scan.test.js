@@ -12,8 +12,8 @@ module.exports = (t) => {
   const htmlFiles = listFiles(ROOT).filter((f) => f.endsWith('.html'));
 
   t.test('扫描范围覆盖全部应用源码', (a) => {
-    a.ok(jsFiles.length >= 6, '应至少包含六个应用的 JS 文件');
-    a.ok(htmlFiles.length >= 7, '应包含首页与六个应用页');
+    a.ok(jsFiles.length >= 9, '应至少包含九个应用的 JS 文件');
+    a.ok(htmlFiles.length >= 10, '应包含首页与九个应用页');
   });
 
   t.test('JS 不使用 HTML 注入与动态执行等危险 API', (a) => {

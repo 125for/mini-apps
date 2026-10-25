@@ -1,6 +1,6 @@
 # Mini Apps · 轻量小应用合集
 
-六个零依赖、开箱即用的网页小工具，同时提供 **Windows 桌面启动器**（双击 exe 即用）。应用本体为纯 HTML / CSS / JavaScript，无构建步骤、无第三方库、无任何网络请求，数据仅保存在浏览器 localStorage 中。
+九个零依赖、开箱即用的网页小工具，同时提供 **Windows 桌面启动器**（双击 exe 即用）。应用本体为纯 HTML / CSS / JavaScript，无构建步骤、无第三方库、无任何网络请求，数据仅保存在浏览器 localStorage 中。
 
 ## 应用一览
 
@@ -11,7 +11,10 @@
 | 📝 [极简日志](apps/journal/index.html) | Ctrl+Enter 快速记录，按天分组，关键词搜索 |
 | 🍅 [番茄钟](apps/pomodoro/index.html) | 25 分钟专注 + 5 分钟休息自动轮换，进度环、提示音、当日统计 |
 | ⏳ [倒数日](apps/countdown/index.html) | 重要日子倒计时，未来由近到远排序，支持每年重复 |
-| 🔑 [密码生成器](apps/password/index.html) | 密码学安全随机，可调长度与字符集，熵强度评估，一键复制 |
+| 🔑 [密码生成器](apps/password/index.html) | 密码学安全随机（拒绝采样消除模偏差），可调长度与字符集，熵强度评估 |
+| 🔥 [习惯打卡](apps/habit/index.html) | 每日打卡、连续天数（streak）统计、最近 35 天打卡格 |
+| 💰 [记账本](apps/expense/index.html) | 收支记录、按月浏览、月度汇总，金额以"分"为整数存储避免浮点误差 |
+| 🧰 [JSON 工具箱](apps/json/index.html) | 格式化 / 压缩 / 校验（错误行列定位）、键名递归排序、节点统计 |
 
 ## 在线使用
 
@@ -19,10 +22,11 @@ GitHub Pages：<https://125for.github.io/mini-apps/>
 
 ## Windows 桌面版（双击 exe 即用）
 
-到 [Releases](https://github.com/125for/mini-apps/releases) 下载 `mini-apps-windows-desktop.zip`，解压后双击任意 exe 即可：
+到 [Releases](https://github.com/125for/mini-apps/releases) 下载最新版 `mini-apps-windows-desktop.zip`，解压后双击任意 exe 即可：
 
 ```
-时钟.exe  待办.exe  日志.exe  番茄钟.exe  倒数日.exe  密码生成器.exe  MiniApps.exe（合集首页）
+时钟.exe  待办.exe  日志.exe  番茄钟.exe  倒数日.exe  密码生成器.exe
+习惯打卡.exe  记账本.exe  JSON工具箱.exe  MiniApps.exe（合集首页）
 ```
 
 - exe 是 **6.5 KB** 的轻量启动器，调用系统自带 Edge / Chrome 的应用窗口模式（无地址栏、无标签页，看起来就像桌面应用），**无需安装任何运行时**
@@ -51,9 +55,9 @@ python -m http.server 8080
 node tests/run-tests.js
 ```
 
-50 个用例，包含四部分，全程无界面弹窗、无网络访问：
+69 个用例，包含四部分，全程无界面弹窗、无网络访问：
 
-- **单元测试** —— 各应用的纯函数逻辑（时间格式化、日期计算、随机采样、状态机等）
+- **单元测试** —— 各应用的纯函数逻辑（时间格式化、日期计算、金额与随机采样、状态机、streak 计算等）
 - **界面冒烟测试** —— 用极简模拟 DOM 驱动真实界面代码，验证交互与持久化
 - **静态安全扫描** —— 禁止 `innerHTML` / `eval` / 内联事件等危险用法，检查桌面启动器无网络 API
 - **构建产物检查** —— 桌面启动器 exe 已构建且体积小于 128KB
@@ -69,7 +73,7 @@ CI（GitHub Actions）在每次推送时于 Ubuntu 运行全部测试、于 Wind
 
 ## English
 
-Six zero-dependency web mini apps (desktop clock, to-do list, journal, pomodoro timer, day countdown, password generator) plus tiny Windows launcher exes (~6.5 KB each) that open them in Edge/Chrome app-window mode. Pure HTML/CSS/JS, no build step, no network requests; data stays in your browser's localStorage. Run all 50 tests with `node tests/run-tests.js`.
+Nine zero-dependency web mini apps (clock, to-do, journal, pomodoro, countdown, password generator, habit tracker, expense book, JSON toolkit) plus tiny Windows launcher exes (~6.5 KB each) that open them in Edge/Chrome app-window mode. Pure HTML/CSS/JS, no build step, no network requests; data stays in your browser's localStorage. Run all 69 tests with `node tests/run-tests.js`.
 
 ## License
 

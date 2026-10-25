@@ -9,6 +9,9 @@ const journal = require('../apps/journal/journal.js');
 const pomodoro = require('../apps/pomodoro/pomodoro.js');
 const countdown = require('../apps/countdown/countdown.js');
 const password = require('../apps/password/password.js');
+const habit = require('../apps/habit/habit.js');
+const expense = require('../apps/expense/expense.js');
+const json = require('../apps/json/json.js');
 const { fakeDom, fakeStorage } = require('./helpers');
 
 module.exports = (t) => {
@@ -241,5 +244,105 @@ module.exports = (t) => {
     ids.get('optDigit').checked = false;
     ids.get('generateBtn').dispatch('click', {});
     a.equal(out.textContent, '请至少选择一种字符类型');
+  });
+
+  t.test('习惯打卡：添加、打卡、取消、删除', (a) => {
+    const { doc, ids } = fakeDom();
+    const store = fakeStorage();
+    habit.initHabit(doc, store);
+
+    a.equal(ids.get('habitList').children.length, 0);
+    a.equal(ids.get('emptyState').hidden, false);
+
+    ids.get('habitInput').value = '  每天阅读  ';
+    ids.get('habitForm').dispatch('submit', { preventDefault() {} });
+    const saved = JSON.parse(store._data['habit.habits.v1']);
+    a.equal(saved.length, 1);
+    a.equal(saved[0].name, '每天阅读');
+
+    let card = ids.get('habitList').children[0];
+    a.equal(card.children[0].children[0].textContent, '每天阅读');
+    a.equal(card.children[1].children.length, 35, '应显示最近 35 天打卡格');
+    a.ok(card.children[0].children[1].textContent.includes('尚未开始'));
+
+    card.children[0].children[2].dispatch('click', {});
+    a.equal(JSON.parse(store._data['habit.habits.v1'])[0].days.length, 1);
+    card = ids.get('habitList').children[0];
+    a.equal(card.children[0].children[2].textContent, '已打卡 ✓');
+    a.ok(card.children[0].children[1].textContent.includes('连续 1 天'), '打卡后显示连续天数');
+    let onCount = 0;
+    for (const cell of card.children[1].children) {
+      if (String(cell.className).includes(' on')) onCount += 1;
+    }
+    a.equal(onCount, 1, '打卡格应点亮一格');
+
+    card.children[0].children[2].dispatch('click', {});
+    a.equal(JSON.parse(store._data['habit.habits.v1'])[0].days.length, 0, '再点一次取消打卡');
+
+    card = ids.get('habitList').children[0];
+    card.children[0].children[3].dispatch('click', {});
+    a.equal(JSON.parse(store._data['habit.habits.v1']).length, 0);
+    a.equal(ids.get('emptyState').hidden, false);
+  });
+
+  t.test('记账本：收支记录、类型切换、汇总与删除', (a) => {
+    const { doc, ids } = fakeDom();
+    const store = fakeStorage();
+    expense.initExpense(doc, store);
+
+    a.equal(ids.get('sumExpense').textContent, '¥0.00');
+    a.ok(ids.get('monthLabel').textContent.includes('10 月'), '默认当前月份');
+
+    ids.get('typeIncome').dispatch('click', {});
+    ids.get('amountInput').value = ' 100.5 ';
+    ids.get('noteInput').value = ' 工资 ';
+    ids.get('entryForm').dispatch('submit', { preventDefault() {} });
+    const saved = JSON.parse(store._data['expense.entries.v1']);
+    a.equal(saved.length, 1);
+    a.equal(saved[0].cents, 10050, '金额以分为单位');
+    a.equal(saved[0].type, 'income');
+    a.equal(saved[0].note, '工资');
+    a.equal(ids.get('sumIncome').textContent, '¥100.50');
+    a.ok(ids.get('entryList').children[0].children[1].textContent.includes('+¥100.50'));
+
+    ids.get('typeExpense').dispatch('click', {});
+    ids.get('amountInput').value = '0';
+    ids.get('entryForm').dispatch('submit', { preventDefault() {} });
+    a.equal(JSON.parse(store._data['expense.entries.v1']).length, 1, '非法金额不写入');
+
+    ids.get('amountInput').value = '25.5';
+    ids.get('entryForm').dispatch('submit', { preventDefault() {} });
+    a.equal(JSON.parse(store._data['expense.entries.v1']).length, 2);
+    a.equal(ids.get('sumExpense').textContent, '¥25.50');
+    a.equal(ids.get('sumBalance').textContent, '¥75.00');
+
+    ids.get('entryList').children[0].children[2].dispatch('click', {});
+    a.equal(JSON.parse(store._data['expense.entries.v1']).length, 1);
+  });
+
+  t.test('JSON 工具箱：格式化、键名排序、压缩、错误提示', (a) => {
+    const { doc, ids } = fakeDom();
+    json.initJson(doc);
+
+    ids.get('jsonInput').value = '{"b":1,"a":2}';
+    ids.get('formatBtn').dispatch('click', {});
+    a.ok(ids.get('message').textContent.includes('✓'), '合法 JSON 提示有效');
+    a.ok(ids.get('jsonOutput').textContent.includes('"b"'));
+    a.ok(ids.get('stats').textContent.includes('节点'));
+
+    ids.get('sortKeys').checked = true;
+    ids.get('formatBtn').dispatch('click', {});
+    const out = ids.get('jsonOutput').textContent;
+    a.ok(out.indexOf('"a"') < out.indexOf('"b"'), '键名排序后 a 在前');
+
+    ids.get('jsonInput').value = '不是 json';
+    ids.get('validateBtn').dispatch('click', {});
+    a.ok(ids.get('message').textContent.includes('解析失败'));
+    a.equal(ids.get('jsonOutput').textContent, '', '失败时清空输出');
+    a.equal(ids.get('stats').textContent, '');
+
+    ids.get('jsonInput').value = '{"x": [1,  2]}';
+    ids.get('minifyBtn').dispatch('click', {});
+    a.equal(ids.get('jsonOutput').textContent, '{"x":[1,2]}');
   });
 };

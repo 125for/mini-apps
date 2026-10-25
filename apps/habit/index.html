@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="习惯打卡：每日打卡、连续天数统计、最近 35 天打卡格，本地保存">
+  <title>习惯打卡 · Mini Apps</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+  <link rel="stylesheet" href="habit.css">
+  <script src="habit.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>习惯打卡</h1>
+      <a class="back" href="../../index.html">← 首页</a>
+    </header>
+
+    <form id="habitForm" class="composer">
+      <input id="habitInput" class="input" type="text" maxlength="30" placeholder="想坚持的习惯，比如：每天阅读 30 分钟" autocomplete="off">
+      <button class="add" type="submit">添加</button>
+    </form>
+
+    <ul id="habitList" class="list"></ul>
+    <p id="emptyState" class="empty" hidden>还没有习惯，添加第一个想坚持的事吧 🔥</p>
+  </main>
+</body>
+</html>

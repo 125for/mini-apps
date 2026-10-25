@@ -1,0 +1,158 @@
+/* 记账本 —— 默认深色，跟随系统明暗 */
+
+:root {
+  --bg: #0e1116;
+  --card: #151a22;
+  --fg: #eef1f6;
+  --muted: #8b93a7;
+  --border: #262d3a;
+  --accent: #5b9dff;
+  --danger: #ff6b6b;
+  --ok: #4cc38a;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f4f6fa;
+    --card: #ffffff;
+    --fg: #1c2230;
+    --muted: #66707f;
+    --border: #dde3ec;
+    --accent: #2f6fe0;
+    --danger: #d64545;
+    --ok: #18864f;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  line-height: 1.6;
+}
+
+.wrap { max-width: 680px; margin: 0 auto; padding: 40px 20px 80px; }
+
+.head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; }
+h1 { margin: 0; font-size: 26px; }
+.back { color: var(--muted); text-decoration: none; font-size: 13px; }
+.back:hover { color: var(--accent); }
+
+.composer { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.type-toggle { display: flex; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.type-toggle button {
+  font: inherit;
+  font-size: 14px;
+  padding: 9px 16px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.type-toggle button.active { background: var(--accent); color: #fff; }
+.input {
+  font: inherit;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--fg);
+  outline: none;
+}
+.input:focus { border-color: var(--accent); }
+.input.amount { width: 130px; }
+.input.date { width: 150px; }
+.add {
+  font: inherit;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+.add:hover { filter: brightness(1.1); }
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 18px;
+}
+.sum {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 14px 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+.label { font-size: 12px; color: var(--muted); }
+.value { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.value.expense { color: var(--danger); }
+.value.income { color: var(--ok); }
+
+.month-nav { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 20px 0 12px; }
+.month-nav span { font-size: 15px; font-weight: 600; min-width: 110px; text-align: center; }
+.month-nav button {
+  font: inherit;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+}
+.month-nav button:hover { border-color: var(--accent); }
+
+.list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.entry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.entry-left { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+.badge {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 13px;
+  background: var(--border);
+}
+.entry.expense .badge { color: var(--danger); }
+.entry.income .badge { color: var(--ok); }
+.info { min-width: 0; }
+.note { margin: 0; font-size: 14px; word-break: break-word; }
+.date { margin: 1px 0 0; font-size: 12px; color: var(--muted); }
+.amount { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+.entry.expense .amount { color: var(--danger); }
+.entry.income .amount { color: var(--ok); }
+.delete {
+  font: inherit;
+  font-size: 12px;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+.delete:hover { color: var(--danger); }
+
+.empty { color: var(--muted); text-align: center; padding: 30px 0; }
