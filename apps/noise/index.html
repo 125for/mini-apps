@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="白噪音：白/粉/棕噪音与海浪，WebAudio 实时合成，无音频文件，支持音量与定时">
+  <title>白噪音 · Mini Apps</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+  <link rel="stylesheet" href="noise.css">
+  <script src="noise.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>白噪音</h1>
+      <a class="back" href="../../index.html">← 首页</a>
+    </header>
+
+    <div class="cards">
+      <div id="card-white" class="noise-card">
+        <span class="icon">⚪</span>
+        <span class="name">白噪音</span>
+        <p class="desc">均匀频谱，帮助专注</p>
+        <button id="play-white" type="button">播放</button>
+      </div>
+      <div id="card-pink" class="noise-card">
+        <span class="icon">🌸</span>
+        <span class="name">粉噪音</span>
+        <p class="desc">更柔和，似细雨</p>
+        <button id="play-pink" type="button">播放</button>
+      </div>
+      <div id="card-brown" class="noise-card">
+        <span class="icon">🟤</span>
+        <span class="name">棕噪音</span>
+        <p class="desc">低沉，似风扇轰鸣</p>
+        <button id="play-brown" type="button">播放</button>
+      </div>
+      <div id="card-waves" class="noise-card">
+        <span class="icon">🌊</span>
+        <span class="name">海浪</span>
+        <p class="desc">棕噪音叠加缓慢起伏</p>
+        <button id="play-waves" type="button">播放</button>
+      </div>
+    </div>
+
+    <div class="controls">
+      <label class="ctl">
+        <span>音量</span>
+        <input id="volumeRange" type="range" min="0" max="100" value="60">
+        <span id="volumeLabel">60%</span>
+      </label>
+      <label class="ctl">
+        <span>定时停止</span>
+        <select id="timerSelect">
+          <option value="0">不定时</option>
+          <option value="15">15 分钟</option>
+          <option value="30">30 分钟</option>
+          <option value="60">60 分钟</option>
+        </select>
+      </label>
+    </div>
+    <p id="timerLabel" class="timer"></p>
+
+    <p class="hint">全部声音由 WebAudio 实时合成，无音频文件、无网络请求；音量按感知曲线（平方）调节</p>
+  </main>
+</body>
+</html>

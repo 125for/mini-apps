@@ -12,6 +12,9 @@ const password = require('../apps/password/password.js');
 const habit = require('../apps/habit/habit.js');
 const expense = require('../apps/expense/expense.js');
 const json = require('../apps/json/json.js');
+const convert = require('../apps/convert/convert.js');
+const picker = require('../apps/picker/picker.js');
+const noise = require('../apps/noise/noise.js');
 const { fakeDom, fakeStorage } = require('./helpers');
 
 module.exports = (t) => {
@@ -344,5 +347,93 @@ module.exports = (t) => {
     ids.get('jsonInput').value = '{"x": [1,  2]}';
     ids.get('minifyBtn').dispatch('click', {});
     a.equal(ids.get('jsonOutput').textContent, '{"x":[1,2]}');
+  });
+
+  t.test('单位换算：类别切换、实时换算、交换与非法输入', (a) => {
+    const { doc, ids } = fakeDom();
+    convert.initConvert(doc);
+
+    a.equal(ids.get('fromUnit').value, 'm', '默认长度类别');
+    a.equal(ids.get('toUnit').value, 'km');
+    ids.get('valueInput').value = '1500';
+    ids.get('valueInput').dispatch('input', {});
+    a.equal(ids.get('resultOutput').textContent, '1.5');
+    a.ok(ids.get('formulaLine').textContent.includes('千米'), '应显示换算公式');
+
+    ids.get('chip-temperature').dispatch('click', {});
+    a.equal(ids.get('fromUnit').value, 'c');
+    a.equal(ids.get('toUnit').value, 'f');
+    ids.get('valueInput').value = '100';
+    ids.get('valueInput').dispatch('input', {});
+    a.equal(ids.get('resultOutput').textContent, '212');
+
+    ids.get('swapBtn').dispatch('click', {});
+    a.equal(ids.get('fromUnit').value, 'f');
+    a.equal(ids.get('toUnit').value, 'c');
+    ids.get('valueInput').value = '212';
+    ids.get('valueInput').dispatch('input', {});
+    a.equal(ids.get('resultOutput').textContent, '100', '交换后 212°F = 100°C');
+
+    ids.get('valueInput').value = 'abc';
+    ids.get('valueInput').dispatch('input', {});
+    a.equal(ids.get('resultOutput').textContent, '—', '非法输入显示占位符');
+  });
+
+  t.test('抽签决定器：解析、抽取、排除再抽、洗牌', (a) => {
+    const { doc, ids } = fakeDom();
+    picker.initPicker(doc);
+    a.equal(ids.get('optionCount').textContent, '共 0 个选项');
+
+    ids.get('optionInput').value = '火锅\n烤肉\n面条\n火锅';
+    ids.get('optionInput').dispatch('input', {});
+    a.equal(ids.get('optionCount').textContent, '共 3 个选项', '重复行去重');
+
+    ids.get('drawBtn').dispatch('click', {});
+    a.ok(['火锅', '烤肉', '面条'].includes(ids.get('resultText').textContent), '结果必须是选项之一');
+    a.equal(ids.get('drawAgainBtn').hidden, false);
+
+    ids.get('drawAgainBtn').dispatch('click', {});
+    a.equal(ids.get('optionInput').value.split('\n').length, 2, '排除后剩两个');
+
+    ids.get('drawAgainBtn').dispatch('click', {});
+    a.ok(ids.get('resultText').textContent.includes('最后一个'), '剩一个时直接给出');
+    a.equal(ids.get('drawAgainBtn').hidden, true);
+
+    ids.get('optionInput').value = '甲\n乙\n丙';
+    ids.get('shuffleBtn').dispatch('click', {});
+    const lines = ids.get('optionInput').value.split('\n');
+    a.deepEqual(lines.slice().sort(), ['甲', '乙', '丙'].slice().sort(), '洗牌后仍是同一批选项');
+    a.ok(ids.get('resultText').textContent.includes('已随机排序'));
+  });
+
+  t.test('白噪音：播放互斥切换、音量与定时', (a) => {
+    const realSetInterval = global.setInterval;
+    global.setInterval = () => 0;
+    try {
+      const { doc, ids } = fakeDom();
+      noise.initNoise(doc);
+
+      ids.get('volumeRange').value = '80';
+      ids.get('volumeRange').dispatch('input', {});
+      a.equal(ids.get('volumeLabel').textContent, '80%');
+
+      ids.get('play-white').dispatch('click', {});
+      a.equal(ids.get('play-white').textContent, '停止');
+
+      ids.get('play-pink').dispatch('click', {});
+      a.equal(ids.get('play-white').textContent, '播放', '切换后原卡片复位');
+      a.equal(ids.get('play-pink').textContent, '停止');
+
+      ids.get('timerSelect').value = '15';
+      ids.get('play-white').dispatch('click', {});
+      a.ok(ids.get('timerLabel').textContent.includes('15:'), '应显示定时倒计时');
+      a.equal(ids.get('play-pink').textContent, '播放', '切换后原卡片复位');
+
+      ids.get('play-white').dispatch('click', {});
+      a.equal(ids.get('play-white').textContent, '播放', '再点停止');
+      a.equal(ids.get('timerLabel').textContent, '', '停止后清空定时显示');
+    } finally {
+      global.setInterval = realSetInterval;
+    }
   });
 };

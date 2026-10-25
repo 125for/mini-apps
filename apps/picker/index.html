@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="抽签决定器：输入选项随机抽取，支持排除已抽与整组洗牌，密码学安全随机">
+  <title>抽签决定器 · Mini Apps</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
+  <link rel="stylesheet" href="picker.css">
+  <script src="picker.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>抽签决定器</h1>
+      <a class="back" href="../../index.html">← 首页</a>
+    </header>
+
+    <textarea id="optionInput" class="input-area" rows="7" spellcheck="false"
+      placeholder="每行一个选项，例如：&#10;吃火锅&#10;吃烤肉&#10;吃面"></textarea>
+    <p id="optionCount" class="count">共 0 个选项</p>
+
+    <div class="controls">
+      <button id="drawBtn" type="button" class="primary">抽一个</button>
+      <button id="shuffleBtn" type="button">全部洗牌</button>
+    </div>
+
+    <section class="result-box">
+      <p id="resultText" class="result">？</p>
+      <button id="drawAgainBtn" type="button" class="again" hidden>排除它，再抽一个</button>
+    </section>
+
+    <p class="hint">使用浏览器密码学安全随机源（crypto.getRandomValues），重复行自动去重</p>
+  </main>
+</body>
+</html>

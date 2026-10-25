@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="单位换算器：长度、重量、面积、体积、温度、数据、速度，30+ 常用单位精确换算">
+  <title>单位换算 · Mini Apps</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📏</text></svg>">
+  <link rel="stylesheet" href="convert.css">
+  <script src="convert.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>单位换算</h1>
+      <a class="back" href="../../index.html">← 首页</a>
+    </header>
+
+    <nav class="chips">
+      <button id="chip-length" type="button" class="chip">长度</button>
+      <button id="chip-mass" type="button" class="chip">重量</button>
+      <button id="chip-area" type="button" class="chip">面积</button>
+      <button id="chip-volume" type="button" class="chip">体积</button>
+      <button id="chip-temperature" type="button" class="chip">温度</button>
+      <button id="chip-data" type="button" class="chip">数据</button>
+      <button id="chip-speed" type="button" class="chip">速度</button>
+    </nav>
+
+    <section class="board">
+      <div class="row">
+        <input id="valueInput" class="input" type="text" inputmode="decimal" placeholder="输入数值" autocomplete="off">
+        <select id="fromUnit" class="select"></select>
+      </div>
+      <button id="swapBtn" type="button" class="swap" title="交换单位">⇅</button>
+      <div class="row">
+        <output id="resultOutput" class="result">—</output>
+        <select id="toUnit" class="select"></select>
+      </div>
+    </section>
+
+    <p id="formulaLine" class="formula"></p>
+    <p class="hint">换算使用国际标准精确定义（如 1 英里 = 1609.344 米）；数据类同时支持 1000 与 1024 进制</p>
+  </main>
+</body>
+</html>
