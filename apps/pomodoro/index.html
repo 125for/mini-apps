@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="番茄钟：25 分钟专注 + 5 分钟休息，自动轮换，本地统计完成数量">
+  <title>番茄钟 · Mini Apps</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍅</text></svg>">
+  <link rel="stylesheet" href="pomodoro.css">
+  <script src="pomodoro.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>番茄钟</h1>
+      <a class="back" href="../../index.html">← 首页</a>
+    </header>
+
+    <section class="dial-area">
+      <svg class="ring" viewBox="0 0 100 100" aria-hidden="true">
+        <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
+        <circle id="progressRing" class="ring-fg" cx="50" cy="50" r="45"></circle>
+      </svg>
+      <div class="dial-text">
+        <p id="phaseLabel" class="phase">准备专注</p>
+        <p id="timeText" class="time">25:00</p>
+      </div>
+    </section>
+
+    <div class="controls">
+      <button id="toggleBtn" type="button" class="primary">开始</button>
+      <button id="resetBtn" type="button">重置</button>
+      <button id="skipBtn" type="button">跳过</button>
+    </div>
+
+    <p id="statLine" class="stat">今天已完成 0 个番茄</p>
+    <p class="hint">25 分钟专注 · 5 分钟休息，阶段结束自动切换并提示</p>
+  </main>
+</body>
+</html>

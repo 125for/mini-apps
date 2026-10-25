@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="密码生成器：密码学安全随机，可调长度与字符集，一键复制，全部本地生成">
+  <title>密码生成器 · Mini Apps</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔑</text></svg>">
+  <link rel="stylesheet" href="password.css">
+  <script src="password.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>密码生成器</h1>
+      <a class="back" href="../../index.html">← 首页</a>
+    </header>
+
+    <section class="result">
+      <p id="passwordText" class="password">点击下方按钮生成</p>
+      <button id="copyBtn" type="button" class="copy">复制</button>
+    </section>
+    <p id="strengthLine" class="strength">—</p>
+
+    <div class="options">
+      <div class="length-row">
+        <label for="lengthRange">长度</label>
+        <input id="lengthRange" type="range" min="8" max="64" value="16">
+        <output id="lenValue">16</output>
+      </div>
+      <label class="check"><input id="optLower" type="checkbox" checked> 小写字母 a-z</label>
+      <label class="check"><input id="optUpper" type="checkbox" checked> 大写字母 A-Z</label>
+      <label class="check"><input id="optDigit" type="checkbox" checked> 数字 0-9</label>
+      <label class="check"><input id="optSymbol" type="checkbox" checked> 符号 !@#$%^&amp;* 等</label>
+      <label class="check"><input id="optNoAmbiguous" type="checkbox" checked> 排除易混淆字符（0 O 1 l I）</label>
+    </div>
+
+    <button id="generateBtn" type="button" class="generate">生成密码</button>
+    <p class="hint">使用浏览器密码学安全随机源（crypto.getRandomValues），本地生成，不经过任何网络</p>
+  </main>
+</body>
+</html>

@@ -75,7 +75,10 @@ function fakeDom() {
       return byId.get(id);
     },
     documentElement: makeElement('html'),
-    defaultView: { matchMedia: () => ({ matches: false }) }
+    defaultView: {
+      matchMedia: () => ({ matches: false }),
+      crypto: (typeof crypto !== 'undefined' ? crypto : null)
+    }
   };
   return { doc, ids: byId };
 }

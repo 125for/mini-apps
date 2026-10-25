@@ -6,6 +6,9 @@ const path = require('path');
 const clock = require('../apps/clock/clock.js');
 const todo = require('../apps/todo/todo.js');
 const journal = require('../apps/journal/journal.js');
+const pomodoro = require('../apps/pomodoro/pomodoro.js');
+const countdown = require('../apps/countdown/countdown.js');
+const password = require('../apps/password/password.js');
 const { fakeDom, fakeStorage } = require('./helpers');
 
 module.exports = (t) => {
@@ -36,7 +39,7 @@ module.exports = (t) => {
 
   t.test('桌面时钟：初始化、刻度、制式与主题切换', (a) => {
     const realSetInterval = global.setInterval;
-    global.setInterval = () => 0; /* 阻止定时器挂起测试进程 */
+    global.setInterval = () => 0;
     try {
       const { doc, ids } = fakeDom();
       const store = fakeStorage();
@@ -90,19 +93,16 @@ module.exports = (t) => {
     a.equal(li2.children[1].textContent, evil, '输入应按纯文本保存');
     a.equal(li2.children.length, 3, '结构应为 checkbox + 文本 + 删除按钮');
 
-    /* 完成：勾选第一条 */
     li.children[0].dispatch('change', {});
     saved = JSON.parse(store._data['todo.tasks.v1']);
     a.equal(saved[0].done, true);
     a.equal(list.children[0].className.includes('done'), true, '完成项应有 done 样式类');
 
-    /* 删除第一条（已完成的买牛奶） */
     list.children[0].children[2].dispatch('click', {});
     saved = JSON.parse(store._data['todo.tasks.v1']);
     a.equal(saved.length, 1);
     a.equal(saved[0].text, evil);
 
-    /* 筛选：未完成的恶意文本条目在"已完成"下不可见 */
     ids.get('filterDone').dispatch('click', {});
     a.equal(list.children.length, 0);
     a.equal(ids.get('emptyState').hidden, false);
@@ -132,7 +132,6 @@ module.exports = (t) => {
     a.equal(entry.children[1].textContent, '今天完成了一件小事');
     a.ok(/^\d{2}:\d{2}$/.test(entry.children[0].textContent), '条目应显示 HH:mm 时间');
 
-    /* 搜索 */
     const search = ids.get('searchInput');
     search.value = '不存在的内容';
     search.dispatch('input', {});
@@ -143,9 +142,104 @@ module.exports = (t) => {
     search.dispatch('input', {});
     a.equal(ids.get('entries').children.length, 1);
 
-    /* 删除 */
     ids.get('entries').children[0].children[1].children[2].dispatch('click', {});
     a.equal(JSON.parse(store._data['journal.entries.v1']).length, 0);
     a.equal(ids.get('entries').children.length, 0);
+  });
+
+  t.test('番茄钟：初始化、开始/暂停、跳过、重置', (a) => {
+    const realSetInterval = global.setInterval;
+    global.setInterval = () => 0;
+    try {
+      const { doc, ids } = fakeDom();
+      pomodoro.initPomodoro(doc, fakeStorage());
+
+      a.equal(ids.get('timeText').textContent, '25:00');
+      a.equal(ids.get('phaseLabel').textContent, '准备专注');
+      a.equal(ids.get('statLine').textContent, '今天已完成 0 个番茄');
+
+      ids.get('toggleBtn').dispatch('click');
+      a.equal(ids.get('toggleBtn').textContent, '暂停');
+      a.equal(ids.get('phaseLabel').textContent, '专注中');
+      a.ok(String(doc.title).includes('25:00'), '标题应包含剩余时间');
+
+      ids.get('toggleBtn').dispatch('click');
+      a.equal(ids.get('toggleBtn').textContent, '开始');
+
+      ids.get('skipBtn').dispatch('click');
+      a.equal(ids.get('phaseLabel').textContent, '稍事休息');
+      a.equal(ids.get('timeText').textContent, '05:00');
+
+      ids.get('resetBtn').dispatch('click');
+      a.equal(ids.get('phaseLabel').textContent, '准备专注');
+      a.equal(ids.get('timeText').textContent, '25:00');
+    } finally {
+      global.setInterval = realSetInterval;
+    }
+  });
+
+  t.test('倒数日：添加、排序渲染、删除', (a) => {
+    const { doc, ids } = fakeDom();
+    const store = fakeStorage();
+    countdown.initCountdown(doc, store);
+
+    a.equal(ids.get('eventList').children.length, 0);
+    a.equal(ids.get('emptyState').hidden, false);
+
+    ids.get('titleInput').value = '  出发去旅行  ';
+    ids.get('dateInput').value = '2030-01-01';
+    ids.get('eventForm').dispatch('submit', { preventDefault() {} });
+    const saved = JSON.parse(store._data['countdown.events.v1']);
+    a.equal(saved.length, 1);
+    a.equal(saved[0].title, '出发去旅行');
+
+    const li = ids.get('eventList').children[0];
+    a.equal(li.children[1].children[0].textContent, '出发去旅行');
+    a.ok(/^\d+$/.test(li.children[0].children[0].textContent), '天数应为数字');
+    a.ok(li.children[1].children[1].textContent.includes('还有'), '未来事件应显示还有 N 天');
+
+    ids.get('titleInput').value = '已过的日子';
+    ids.get('dateInput').value = '2020-01-01';
+    ids.get('eventForm').dispatch('submit', { preventDefault() {} });
+    a.equal(ids.get('eventList').children.length, 2);
+    a.equal(
+      ids.get('eventList').children[0].children[1].children[0].textContent,
+      '出发去旅行',
+      '未来事件应排在过期事件前'
+    );
+
+    ids.get('eventList').children[1].children[2].dispatch('click', {});
+    a.equal(JSON.parse(store._data['countdown.events.v1']).length, 1);
+  });
+
+  t.test('密码生成器：生成、长度联动、字符集约束', (a) => {
+    const { doc, ids } = fakeDom();
+    /* 模拟 DOM 不解析 HTML 属性，按 index.html 的默认勾选预设 */
+    doc.getElementById('optLower').checked = true;
+    doc.getElementById('optUpper').checked = true;
+    doc.getElementById('optDigit').checked = true;
+    doc.getElementById('optSymbol').checked = true;
+    doc.getElementById('optNoAmbiguous').checked = true;
+    password.initPassword(doc);
+    const out = ids.get('passwordText');
+
+    a.equal(out.textContent.length, 16, '默认长度 16');
+    a.ok(/^[0-9a-zA-Z!@#$%^&*()\-_=+\[\]{};:,.?/~]+$/.test(out.textContent), '只包含所选字符');
+    a.ok(ids.get('strengthLine').textContent.includes('位熵'), '应显示熵强度');
+
+    ids.get('lengthRange').value = '8';
+    ids.get('lengthRange').dispatch('input', {});
+    a.equal(ids.get('lenValue').textContent, '8');
+    a.equal(out.textContent.length, 8);
+
+    ids.get('optSymbol').checked = false;
+    ids.get('generateBtn').dispatch('click', {});
+    a.ok(/^[0-9a-zA-Z]+$/.test(out.textContent), '关闭符号后不应含符号');
+
+    ids.get('optLower').checked = false;
+    ids.get('optUpper').checked = false;
+    ids.get('optDigit').checked = false;
+    ids.get('generateBtn').dispatch('click', {});
+    a.equal(out.textContent, '请至少选择一种字符类型');
   });
 };

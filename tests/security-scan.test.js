@@ -12,8 +12,8 @@ module.exports = (t) => {
   const htmlFiles = listFiles(ROOT).filter((f) => f.endsWith('.html'));
 
   t.test('扫描范围覆盖全部应用源码', (a) => {
-    a.ok(jsFiles.length >= 3, '应至少包含三个应用的 JS 文件');
-    a.ok(htmlFiles.length >= 4, '应包含首页与三个应用页');
+    a.ok(jsFiles.length >= 6, '应至少包含六个应用的 JS 文件');
+    a.ok(htmlFiles.length >= 7, '应包含首页与六个应用页');
   });
 
   t.test('JS 不使用 HTML 注入与动态执行等危险 API', (a) => {
@@ -44,6 +44,25 @@ module.exports = (t) => {
       a.ok(!/javascript\s*:/i.test(src), rel + ' 不应包含 javascript: 链接');
       a.ok(!/<script(?![^>]*\bsrc=)[^>]*>/i.test(src), rel + ' 不应包含无 src 的内联 script');
       a.ok(/<meta\s+charset=["']?utf-8["']?/i.test(src), rel + ' 应声明 utf-8 编码');
+    }
+  });
+
+  t.test('桌面启动器源码不含网络与动态下载 API', (a) => {
+    const cs = path.join(ROOT, 'desktop', 'src', 'Launcher.cs');
+    a.ok(fs.existsSync(cs), '应存在 desktop/src/Launcher.cs');
+    const src = fs.readFileSync(cs, 'utf8');
+    for (const name of ['HttpClient', 'WebClient', 'DownloadFile', 'DownloadString', 'TcpClient', 'Socket', 'Registry']) {
+      a.ok(!src.includes(name), 'Launcher.cs 不应使用 ' + name);
+    }
+  });
+
+  t.test('桌面启动器 exe 已构建且体积极小', (a) => {
+    const dir = path.join(ROOT, 'desktop');
+    const exes = fs.readdirSync(dir).filter((f) => f.endsWith('.exe'));
+    a.ok(exes.length >= 7, '应包含合集与六个应用启动器，实际: ' + exes.length);
+    for (const f of exes) {
+      const size = fs.statSync(path.join(dir, f)).size;
+      a.ok(size > 0 && size < 131072, f + ' 应在 128KB 以内，实际 ' + size + ' 字节');
     }
   });
 

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="倒数日：记住重要日子，还有几天一目了然，支持每年重复">
+  <title>倒数日 · Mini Apps</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏳</text></svg>">
+  <link rel="stylesheet" href="countdown.css">
+  <script src="countdown.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>倒数日</h1>
+      <a class="back" href="../../index.html">← 首页</a>
+    </header>
+
+    <form id="eventForm" class="composer">
+      <input id="titleInput" class="input" type="text" maxlength="50" placeholder="比如：出发去旅行" autocomplete="off">
+      <input id="dateInput" class="input date" type="date" required>
+      <label class="check"><input id="repeatInput" type="checkbox"> 每年重复</label>
+      <button class="add" type="submit">添加</button>
+    </form>
+
+    <ul id="eventList" class="list"></ul>
+    <p id="emptyState" class="empty" hidden>还没有倒数日，添加一个重要的日子吧 ⏳</p>
+  </main>
+</body>
+</html>

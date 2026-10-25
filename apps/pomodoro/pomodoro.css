@@ -1,0 +1,71 @@
+/* 番茄钟 —— 默认深色，跟随系统明暗 */
+
+:root {
+  --bg: #0e1116;
+  --card: #151a22;
+  --fg: #eef1f6;
+  --muted: #8b93a7;
+  --border: #262d3a;
+  --accent: #ff6b6b;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f4f6fa;
+    --card: #ffffff;
+    --fg: #1c2230;
+    --muted: #66707f;
+    --border: #dde3ec;
+    --accent: #e05252;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+}
+
+.wrap { max-width: 520px; margin: 0 auto; padding: 40px 20px 80px; }
+
+.head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+h1 { margin: 0; font-size: 26px; }
+.back { color: var(--muted); text-decoration: none; font-size: 13px; }
+.back:hover { color: var(--accent); }
+
+.dial-area { position: relative; width: min(64vw, 260px); height: min(64vw, 260px); margin: 10px auto 22px; }
+.ring { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring-bg { fill: none; stroke: var(--border); stroke-width: 4; }
+.ring-fg { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; }
+
+.dial-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+.phase { margin: 0; color: var(--muted); font-size: 14px; }
+.time { margin: 0; font-size: 54px; font-weight: 200; letter-spacing: .03em; font-variant-numeric: tabular-nums; }
+
+.controls { display: flex; gap: 10px; justify-content: center; margin: 0 0 16px; }
+.controls button {
+  font: inherit;
+  font-size: 14px;
+  color: var(--fg);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 9px 20px;
+  cursor: pointer;
+}
+.controls button:hover { border-color: var(--accent); }
+.controls .primary { background: var(--accent); border-color: var(--accent); color: #fff; min-width: 96px; }
+
+.stat { text-align: center; color: var(--muted); font-size: 14px; margin: 0; }
+.hint { text-align: center; color: var(--muted); font-size: 12px; margin: 26px 0 0; }

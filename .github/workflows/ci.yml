@@ -11,3 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: node tests/run-tests.js
+
+  build-desktop:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmd /c desktop\build.cmd
