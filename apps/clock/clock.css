@@ -1,0 +1,102 @@
+/* 桌面时钟 —— 默认深色，同时支持跟随系统与手动切换 */
+
+:root {
+  --bg: #0e1116;
+  --fg: #eef1f6;
+  --muted: #8b93a7;
+  --dial: #151a22;
+  --dial-border: #2a3040;
+  --tick: #5b6478;
+  --accent: #5b9dff;
+  --second: #ff6b6b;
+  --card: #161b24;
+}
+
+:root[data-theme='light'] {
+  --bg: #f4f6fa;
+  --fg: #1c2230;
+  --muted: #66707f;
+  --dial: #ffffff;
+  --dial-border: #d8dee8;
+  --tick: #9aa5b8;
+  --accent: #2f6fe0;
+  --second: #e05252;
+  --card: #ffffff;
+}
+
+/* 未手动设置主题时跟随系统 */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --bg: #f4f6fa;
+    --fg: #1c2230;
+    --muted: #66707f;
+    --dial: #ffffff;
+    --dial-border: #d8dee8;
+    --tick: #9aa5b8;
+    --accent: #2f6fe0;
+    --second: #e05252;
+    --card: #ffffff;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  transition: background .25s ease, color .25s ease;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 36px 16px;
+}
+
+.face { width: min(60vmin, 340px); height: min(60vmin, 340px); }
+.dial { fill: var(--dial); stroke: var(--dial-border); stroke-width: 1.6; }
+.tick { stroke: var(--tick); stroke-width: 1.4; stroke-linecap: round; }
+.tick.major { stroke: var(--fg); stroke-width: 2.4; }
+.hand { stroke-linecap: round; }
+.hand.hour { stroke: var(--fg); stroke-width: 3.2; }
+.hand.minute { stroke: var(--fg); stroke-width: 2.1; }
+.hand.second { stroke: var(--second); stroke-width: 1.1; }
+.pin { fill: var(--second); }
+
+.digital {
+  margin: 0;
+  font-size: clamp(36px, 8vw, 68px);
+  font-weight: 200;
+  letter-spacing: .05em;
+  font-variant-numeric: tabular-nums;
+}
+
+.date-line { margin: -6px 0 0; color: var(--muted); font-size: 15px; }
+
+.controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+.controls button {
+  font: inherit;
+  font-size: 13px;
+  color: var(--fg);
+  background: var(--card);
+  border: 1px solid var(--dial-border);
+  border-radius: 999px;
+  padding: 7px 15px;
+  cursor: pointer;
+  transition: border-color .15s ease;
+}
+.controls button:hover { border-color: var(--accent); }
+.controls button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.back { margin: 6px 0 0; }
+.back a { color: var(--muted); font-size: 13px; text-decoration: none; }
+.back a:hover { color: var(--accent); }

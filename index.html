@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="三个零依赖的轻量网页小应用：桌面时钟、待办清单、极简日志">
+  <title>Mini Apps · 轻量小应用</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+  <style>
+    :root {
+      --bg: #0e1116;
+      --card: #151a22;
+      --fg: #eef1f6;
+      --muted: #8b93a7;
+      --border: #262d3a;
+      --accent: #5b9dff;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f4f6fa;
+        --card: #ffffff;
+        --fg: #1c2230;
+        --muted: #66707f;
+        --border: #dde3ec;
+        --accent: #2f6fe0;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      background: radial-gradient(1000px 500px at 50% -100px, rgba(91, 157, 255, .12), transparent), var(--bg);
+      color: var(--fg);
+      font-family: system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    }
+    header { text-align: center; margin-bottom: 34px; }
+    h1 { margin: 0 0 8px; font-size: 34px; letter-spacing: .02em; }
+    .sub { margin: 0; color: var(--muted); font-size: 14px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+      width: 100%;
+      max-width: 780px;
+    }
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 26px 22px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--fg);
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+    .icon { font-size: 34px; line-height: 1; }
+    .name { font-size: 18px; font-weight: 600; }
+    .desc { color: var(--muted); font-size: 13px; line-height: 1.6; }
+    footer { margin-top: 44px; color: var(--muted); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mini Apps</h1>
+    <p class="sub">三个零依赖的小工具 · 数据只存在你的浏览器里</p>
+  </header>
+  <nav class="grid">
+    <a class="card" href="apps/clock/index.html">
+      <span class="icon">🕐</span>
+      <span class="name">桌面时钟</span>
+      <span class="desc">模拟表盘 + 数字时间，支持全屏、明暗主题与制式切换</span>
+    </a>
+    <a class="card" href="apps/todo/index.html">
+      <span class="icon">✅</span>
+      <span class="name">待办清单</span>
+      <span class="desc">添加、完成、筛选、清除已完成，自动本地保存</span>
+    </a>
+    <a class="card" href="apps/journal/index.html">
+      <span class="icon">📝</span>
+      <span class="name">极简日志</span>
+      <span class="desc">随手记一笔，按天分组展示，支持关键词搜索</span>
+    </a>
+  </nav>
+  <footer>MIT License · 纯 HTML / CSS / JS · 零依赖 · 零网络请求</footer>
+</body>
+</html>

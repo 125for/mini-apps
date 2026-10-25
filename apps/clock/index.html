@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="桌面时钟：模拟表盘 + 数字时间，支持全屏、明暗主题与 12/24 小时制切换">
+  <title>桌面时钟 · Mini Apps</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕐</text></svg>">
+  <link rel="stylesheet" href="clock.css">
+  <script src="clock.js" defer></script>
+</head>
+<body>
+  <main class="stage">
+    <svg class="face" viewBox="0 0 100 100" role="img" aria-label="模拟时钟表盘">
+      <circle class="dial" cx="50" cy="50" r="48"></circle>
+      <g id="ticks"></g>
+      <line id="hourHand" class="hand hour" x1="50" y1="50" x2="50" y2="28"></line>
+      <line id="minuteHand" class="hand minute" x1="50" y1="50" x2="50" y2="15"></line>
+      <line id="secondHand" class="hand second" x1="50" y1="56" x2="50" y2="12"></line>
+      <circle class="pin" cx="50" cy="50" r="1.8"></circle>
+    </svg>
+    <p id="digital" class="digital">--:--:--</p>
+    <p id="dateLine" class="date-line"></p>
+    <div class="controls">
+      <button id="toggle24h" type="button">24 小时制</button>
+      <button id="toggleSeconds" type="button">显示秒</button>
+      <button id="toggleTheme" type="button">浅色模式</button>
+      <button id="fullscreen" type="button">全屏</button>
+    </div>
+    <p class="back"><a href="../../index.html">← 返回首页</a></p>
+  </main>
+</body>
+</html>

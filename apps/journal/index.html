@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="极简日志：随手记录，按天分组，支持关键词搜索，数据自动保存在本地">
+  <title>极简日志 · Mini Apps</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+  <link rel="stylesheet" href="journal.css">
+  <script src="journal.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>极简日志</h1>
+      <a class="back" href="../../index.html">← 首页</a>
+    </header>
+
+    <form id="entryForm" class="composer">
+      <textarea id="entryText" rows="4" maxlength="5000" placeholder="记点什么……（Ctrl + Enter 保存）"></textarea>
+      <div class="composer-foot">
+        <span id="charCounter" class="counter">0 / 5000</span>
+        <button class="save" type="submit">保存</button>
+      </div>
+    </form>
+
+    <div class="search">
+      <input id="searchInput" type="search" placeholder="搜索日志…" autocomplete="off">
+    </div>
+
+    <div id="entries" class="entries"></div>
+    <p id="emptyState" class="empty" hidden>还没有日志，写下第一条吧 ✍️</p>
+  </main>
+</body>
+</html>

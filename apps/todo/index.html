@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="极简待办清单：添加、完成、筛选，数据自动保存在本地">
+  <title>待办清单 · Mini Apps</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✅</text></svg>">
+  <link rel="stylesheet" href="todo.css">
+  <script src="todo.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>待办清单</h1>
+      <a class="back" href="../../index.html">← 首页</a>
+    </header>
+
+    <form id="todoForm" class="composer">
+      <input id="todoInput" class="input" type="text" maxlength="500"
+             placeholder="想做点什么？回车添加" autocomplete="off" autofocus>
+      <button class="add" type="submit">添加</button>
+    </form>
+
+    <div class="toolbar">
+      <div class="filters">
+        <button id="filterAll" type="button" class="active">全部</button>
+        <button id="filterActive" type="button">未完成</button>
+        <button id="filterDone" type="button">已完成</button>
+      </div>
+      <button id="clearDone" type="button" class="ghost">清除已完成</button>
+    </div>
+
+    <ul id="todoList" class="list"></ul>
+    <p id="emptyState" class="empty" hidden>这里空空如也，添加第一条待办吧 ✨</p>
+    <p id="counter" class="counter"></p>
+  </main>
+</body>
+</html>
